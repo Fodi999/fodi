@@ -1,4 +1,3 @@
-//views/edit.ejs
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +6,10 @@
   <title>Edit Post</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+  <link rel="icon" sizes="512x512" href="/icons/icon-512x512.png">
+  <meta name="theme-color" content="#333333">
 </head>
 <body>
   <header>
@@ -44,6 +47,18 @@
       const currentLength = textarea.value.length;
       const charCountElement = document.getElementById('charCount');
       charCountElement.textContent = `${maxLength - currentLength} characters remaining`;
+    }
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, error => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
     }
   </script>
 </body>

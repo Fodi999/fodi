@@ -6,6 +6,17 @@
   <title>Admin Panel</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <!-- Favicon and PWA configuration -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+  <link rel="icon" sizes="512x512" href="/icons/icon-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
 </head>
 <body>
   <header>
@@ -71,6 +82,18 @@
       const currentLength = textarea.value.length;
       const charCountElement = document.getElementById('charCount');
       charCountElement.textContent = `${maxLength - currentLength} characters remaining`;
+    }
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, error => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
     }
   </script>
 </body>
