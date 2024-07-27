@@ -18,7 +18,21 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache.map(url => {
+          return new Request(url, { cache: 'reload' });
+        }));
+      })
+      .catch(error => {
+        console.error('Failed to cache resources during install:', error);
+        urlsToCache.forEach(url => {
+          fetch(url).then(response => {
+            if (!response.ok) {
+              console.error(`Failed to fetch resource: ${url} - Status: ${response.status}`);
+            }
+          }).catch(fetchError => {
+            console.error(`Failed to fetch resource: ${url} - Error: ${fetchError}`);
+          });
+        });
       })
   );
 });
@@ -52,6 +66,7 @@ self.addEventListener('activate', event => {
     })
   );
 });
+
 
 
 
